@@ -216,7 +216,7 @@ function findParents(person, people){
         })
         parentsArray.push(parentObject);
     }
-    return JSON.stringify(parentsArray, ["firstName", "lastName"]);   //stringify parent objects but only include name key and value
+    return JSON.stringify(parentsArray, ["firstName", "lastName"], " ");   //stringify parent objects but only include name key and value
 }
 
 function findSpouse(person, people){
@@ -230,7 +230,7 @@ function findSpouse(person, people){
             return true;
         }
     })
-    return JSON.stringify(spouseObject, ["firstName", "lastName"]);
+    return JSON.stringify(spouseObject, ["firstName", "lastName"], " ");
 }
 
 function findSiblings(person, people){
@@ -243,7 +243,7 @@ function findSiblings(person, people){
     let namesString = "";
     for (let key in siblingsArray){
         let siblingObject = siblingsArray[key];
-        namesString += JSON.stringify(siblingObject, ["firstName", "lastName"]);
+        namesString += JSON.stringify(siblingObject, ["firstName", "lastName"], " ");
     }
     return namesString;
 }
@@ -273,7 +273,7 @@ function findPersonDescendants(person, people, array = []){
     for (let i = 0; i < subArray.length; i++){
         array = array.concat(findPersonDescendants(subArray[i], people));
     }
-    return JSON.stringify(array, ["firstName", "lastName"]); 
+    return JSON.stringify(array, ["firstName", "lastName"], " "); 
 }
 
 app(data);
