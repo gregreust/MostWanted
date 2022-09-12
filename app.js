@@ -57,10 +57,22 @@ function mainMenu(person, people) {
         alert("Could not find that individual.");
         // Restarts app() from the very beginning
         return app(people);
+    } else if (person.length > 1){
+        //runs if searchByTrait returns multiple results
+        let output = "";
+        for(let i=0;i<person.length;i++){
+            output+= `${person[i].firstName} ${person[i].lastName}, `;
+        }
+        let displayOption = alert(
+            "Results " + output
+        )
+        return app(people);
+
+    } else{
+        let displayOption = prompt(
+            `Found ${person[0].firstName} ${person[0].lastName}. Do you want to know their 'info', 'family', or 'descendants'?\nType the option you want or type 'restart' or 'quit'.`
+        );
     }
-    let displayOption = prompt(
-        `Found ${person[0].firstName} ${person[0].lastName}. Do you want to know their 'info', 'family', or 'descendants'?\nType the option you want or type 'restart' or 'quit'.`
-    );
     // Routes our application based on the user's input
     switch (displayOption) {
         case "info":
@@ -281,64 +293,71 @@ function searchByTraits(people){
     let searchInstructions = inputString.split(",");
     let searchResult = people;
     for (let i=0; i<7; i++){
-        if (searchInstructions[i] != 0){
+        if (searchInstructions[i] != "0"){
             switch (i){
                 case(0):
-                    for(let key in searchResult){
-                        if (searchResult[key].lastName != searchInstructions[0]){
-                            searchResult.splice(key, 1);
+                    for(let x=0; x<searchResult.length; x++){
+                        if (searchResult[x].lastName != searchInstructions[0]){
+                            searchResult.splice(x, 1);
+                            x--;
                         }
                     }
                     break;
                 case(1):
-                    for(let key in searchResult){
-                        if (searchResult[key].gender != searchInstructions[1]){
-                            searchResult.splice(key, 1);
+                    for(let x=0; x<searchResult.length; x++){
+                        if (searchResult[x].gender != searchInstructions[1]){
+                            searchResult.splice(x, 1);
+                            x--;
                         }
                     }
                     break;
                 case(2):
-                    for(let key in searchResult){
-                        if (searchResult[key].occupation != searchInstructions[2]){
-                            searchResult.splice(key, 1);
+                    for(let x=0; x<searchResult.length; x++){
+                        if (searchResult[x].occupation != searchInstructions[2]){
+                            searchResult.splice(x, 1);
+                            x--;
                         }
                     }
                     break;
                 case(3):
-                    for(let key in searchResult){
-                        if (searchResult[key].height != searchInstructions[3]){
-                            searchResult.splice(key, 1);
+                    for(let x=0; x<searchResult.length; x++){
+                        if (searchResult[x].height != searchInstructions[3]){
+                            searchResult.splice(x, 1);
+                            x--;
                         }
                     }
                     break;
                 case(4):
-                    for(let key in searchResult){
-                        if (searchResult[key].weight != searchInstructions[4]){
-                            searchResult.splice(key, 1);
+                    for(let x=0; x<searchResult.length; x++){
+                        if (searchResult[x].weight != searchInstructions[4]){
+                            searchResult.splice(x, 1);
+                            x--;
                         }
                     }
                     break;
                 case(5):
-                    for(let key in searchResult){
-                        if (searchResult[key].eyeColor != searchInstructions[5]){
-                            searchResult.splice(key, 1);
-                        }
+                    for(let x=0; x<searchResult.length; x++){
+                        if (searchResult[x].eyeColor != searchInstructions[5]){
+                            searchResult.splice(x, 1);
+                            x--;
+                        }   
                     }
                     break;
                 case(6):
-                    for(let key in searchResult){
-                        if (searchResult[key].dob != searchInstructions[6]){
-                            searchResult.splice(key, 1);
+                    for(let x=0; x<searchResult.length; x++){
+                        if (searchResult[x].dob != searchInstructions[6]){
+                            searchResult.splice(x, 1);
+                            x--;
                         }
                     }
                     break;
             }
         }
     }
-    if (searchResult.lenth === 0){
-        return "No results found";
+    if (searchResult.length === 0){
+        return ["No results found"];
     }
-    return JSON.stringify(searchResult, ["firstName", "lastName"], " ");
+    return searchResult;
 }
 
 app(data);
