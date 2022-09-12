@@ -276,4 +276,69 @@ function findPersonDescendants(person, people, array = []){
     return JSON.stringify(array, ["firstName", "lastName"], " "); 
 }
 
+function searchByTraits(people){
+    let inputString = prompt("You can search by last name, gender, occupation, height, weight, eye color, or birthdate\n Please format your search like \"0,male,0,0,0,0,0\" or \"Smith,0,doctor,0,0,blue,0");
+    let searchInstructions = inputString.split(",");
+    let searchResult = people;
+    for (let i=0; i<7; i++){
+        if (searchInstructions[i] != 0){
+            switch (i){
+                case(0):
+                    for(let key in searchResult){
+                        if (searchResult[key].lastName != searchInstructions[0]){
+                            searchResult.splice(key, 1);
+                        }
+                    }
+                    break;
+                case(1):
+                    for(let key in searchResult){
+                        if (searchResult[key].gender != searchInstructions[1]){
+                            searchResult.splice(key, 1);
+                        }
+                    }
+                    break;
+                case(2):
+                    for(let key in searchResult){
+                        if (searchResult[key].occupation != searchInstructions[2]){
+                            searchResult.splice(key, 1);
+                        }
+                    }
+                    break;
+                case(3):
+                    for(let key in searchResult){
+                        if (searchResult[key].height != searchInstructions[3]){
+                            searchResult.splice(key, 1);
+                        }
+                    }
+                    break;
+                case(4):
+                    for(let key in searchResult){
+                        if (searchResult[key].weight != searchInstructions[4]){
+                            searchResult.splice(key, 1);
+                        }
+                    }
+                    break;
+                case(5):
+                    for(let key in searchResult){
+                        if (searchResult[key].eyeColor != searchInstructions[5]){
+                            searchResult.splice(key, 1);
+                        }
+                    }
+                    break;
+                case(6):
+                    for(let key in searchResult){
+                        if (searchResult[key].dob != searchInstructions[6]){
+                            searchResult.splice(key, 1);
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+    if (searchResult.lenth === 0){
+        return "No results found";
+    }
+    return JSON.stringify(searchResult, ["firstName", "lastName"], " ");
+}
+
 app(data);
