@@ -66,7 +66,7 @@ function mainMenu(person, people) {
         case "info":
             //! TODO #1: Utilize the displayPerson function //////////////////////////////////////////
             // HINT: Look for a person-object stringifier utility function to help
-            let personInfo = displayPerson(person[0]);
+            let personInfo = displayPerson(person[0], people);
             alert(personInfo);
             break;
         case "family":
@@ -94,6 +94,7 @@ function mainMenu(person, people) {
     }
 }
 // End of mainMenu()
+
 
 /**
  * This function is used when searching the people collection by
@@ -137,10 +138,25 @@ function displayPeople(people) {
  * in order to easily send the information to the user in the form of an alert().
  * @param {Object} person       A singular object.
  */
-function displayPerson(person) {
-    let personInfo = `First Name: ${person.firstName}\n`;
-    personInfo += `Last Name: ${person.lastName}\n`;
-    //! TODO #1a: finish getting the rest of the information to display //////////////////////////////////////////
+function displayPerson(person, people) {
+
+//user facing version of display fumction//////////////////
+    // let personInfo = `First Name: ${person.firstName}\n`;
+    // personInfo += `Last Name: ${person.lastName}\n`;
+    // personInfo += `Gender: ${person.gender}\n`;
+    // personInfo += `Birth Date: ${person.dob}\n`;
+    // personInfo += `Height: ${person.height} in\n`;
+    // personInfo += `Weight: ${person.weight} lbs\n`;
+    // personInfo += `Eye Color: ${person.eyeColor}\n`;
+    // personInfo += `Occupation: ${person.occupation}\n`;
+    // personInfo += `Parents: ${findParents(person, people)}\n`;
+    // personInfo += `Spouse: ${findSpouse(person, people)}\n`;
+
+// stringified version of display function///////////////
+    
+
+    let personInfo = JSON.stringify(person);
+
     alert(personInfo);
 }
 // End of displayPerson()
@@ -184,3 +200,67 @@ function chars(input) {
 
 //////////////////////////////////////////* End Of Starter Code *//////////////////////////////////////////
 // Any additional functions can be written below this line 👇. Happy Coding! 😁
+
+function findParents(person, people){
+    let parentsArray = [];
+    if (!person.parents){
+        return null; 
+    }
+    for (let key in person.parents){
+        let parentId = person.parents[key];
+        // let parentObject = people.filter(x => x===parentId);        //find x where x.id equals parent id
+        let parentObject = people.filter(function(x){
+            if (x.id === parentId){
+                return true;
+            }
+        })
+        parentsArray.push(parentObject);
+    }
+    return JSON.stringify(parentsArray, ["firstName"], ["lastName"]);   //stringify parent objects but only include name key and value
+}
+
+function findSpouse(person, people){
+    let spouseId = person.currentSpouse;
+    if (!person.spouse){
+        return null;
+    }
+    // let spouseObject = people.filter(x => x===spouseId);   
+    let spouseObject = people.filter(function(x){
+        if (x.id === spouseId){
+            return true;
+        }
+    })
+    return JSON.stringify(spouseObject, ["firstName"], ["lastName"]);
+}
+
+function findSiblings(person, people){
+    let parentIds = person.parents;
+    let parentsArray = people.filter(function(x){
+        if (x.parents === parentIds){
+            return true;
+        }
+    }) 
+    let namesString = "";
+    for (let key in parentsArray){
+        parentObject = parentsArray[key];
+        namesString += `${parentObject[0].firstName} ${parentObject[0].lastName}`;
+    }
+    return namesString;
+}
+
+function findPersonFamily(person, people){
+    let familyString = "";
+    //get parents
+    familyString += `Parents: ${findParentNames(person, people)}\n`;
+    //get siblings
+    familyString += `Siblings: ${findSiblings(person, people)}\n `;
+    //get spouse
+    familyString += `Spouse: ${findSpouseName(person, people)}\n `;
+    return familyString;
+}
+
+function findPersonDescendants(person, people){
+
+}
+
+app(data);
