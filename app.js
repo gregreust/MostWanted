@@ -52,6 +52,7 @@ function app(people) {
  * @returns {String}            The valid string input retrieved from the user.
  */
 function mainMenu(person, people) {
+    let displayOption = "";
     // A check to verify a person was found via searchByName() or searchByTrait()
     if (!person[0]) {
         alert("Could not find that individual.");
@@ -63,12 +64,13 @@ function mainMenu(person, people) {
         for(let i=0;i<person.length;i++){
             output+= `${person[i].firstName} ${person[i].lastName}, `;
         }
-        let displayOption = alert(
-            "Results " + output
-        )
+        alert("Results " + output)
         return app(people);
-
-    } else{
+    } else if(typeof person[0].firstName === 'undefined'){
+        alert("Please check your search input");
+        searchByTraits(people);
+    }
+    else{
         let displayOption = prompt(
             `Found ${person[0].firstName} ${person[0].lastName}. Do you want to know their 'info', 'family', or 'descendants'?\nType the option you want or type 'restart' or 'quit'.`
         );
@@ -100,6 +102,8 @@ function mainMenu(person, people) {
         case "quit":
             // Stop application execution
             return;
+        case undefined:
+            app(people);
         default:
             // Prompt user again. Another instance of recursion
             return mainMenu(person, people);
