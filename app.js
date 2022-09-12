@@ -216,7 +216,7 @@ function findParents(person, people){
         })
         parentsArray.push(parentObject);
     }
-    return JSON.stringify(parentsArray, ["firstName"], ["lastName"]);   //stringify parent objects but only include name key and value
+    return JSON.stringify(parentsArray, ["firstName", "lastName"]);   //stringify parent objects but only include name key and value
 }
 
 function findSpouse(person, people){
@@ -230,7 +230,7 @@ function findSpouse(person, people){
             return true;
         }
     })
-    return JSON.stringify(spouseObject, ["firstName"], ["lastName"]);
+    return JSON.stringify(spouseObject, ["firstName", "lastName"]);
 }
 
 function findSiblings(person, people){
@@ -243,7 +243,7 @@ function findSiblings(person, people){
     let namesString = "";
     for (let key in siblingsArray){
         let siblingObject = siblingsArray[key];
-        namesString += JSON.stringify(siblingObject, ["firstName"], ["lastName"]);
+        namesString += JSON.stringify(siblingObject, ["firstName", "lastName"]);
     }
     return namesString;
 }
@@ -259,8 +259,21 @@ function findPersonFamily(person, people){
     return familyString;
 }
 
-function findPersonDescendants(person, people){
-
+function findPersonDescendants(person, people, array = []){
+    //make subArray with persons children 
+    let subArray = people.filter(function(x){
+        if (x.parents.includes(person.id)){
+            return true;
+        }
+    })
+    array = [person]; 
+    if (subArray.length === 0){
+        return array; 
+    }
+    for (let i = 0; i < subArray.length; i++){
+        array = array.concat(findPersonDescendants(subArray[i], people));
+    }
+    return JSON.stringify(array, ["firstName", "lastName"]); 
 }
 
 app(data);
