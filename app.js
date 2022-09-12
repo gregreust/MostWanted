@@ -155,7 +155,7 @@ function displayPerson(person, people) {
 // stringified version of display function///////////////
     
 
-    let personInfo = JSON.stringify(person);
+    let personInfo = JSON.stringify(person, null, " ");
 
     alert(personInfo);
 }
@@ -221,7 +221,7 @@ function findParents(person, people){
 
 function findSpouse(person, people){
     let spouseId = person.currentSpouse;
-    if (!person.spouse){
+    if (!person.currentSpouse){
         return null;
     }
     // let spouseObject = people.filter(x => x===spouseId);   
@@ -235,15 +235,15 @@ function findSpouse(person, people){
 
 function findSiblings(person, people){
     let parentIds = person.parents;
-    let parentsArray = people.filter(function(x){
+    let siblingsArray = people.filter(function(x){
         if (x.parents === parentIds){
             return true;
         }
     }) 
     let namesString = "";
-    for (let key in parentsArray){
-        parentObject = parentsArray[key];
-        namesString += `${parentObject[0].firstName} ${parentObject[0].lastName}`;
+    for (let key in siblingsArray){
+        let siblingObject = siblingsArray[key];
+        namesString += JSON.stringify(siblingObject, ["firstName"], ["lastName"]);
     }
     return namesString;
 }
@@ -251,11 +251,11 @@ function findSiblings(person, people){
 function findPersonFamily(person, people){
     let familyString = "";
     //get parents
-    familyString += `Parents: ${findParentNames(person, people)}\n`;
+    familyString += `Parents: ${findParents(person, people)}\n`;
     //get siblings
     familyString += `Siblings: ${findSiblings(person, people)}\n `;
     //get spouse
-    familyString += `Spouse: ${findSpouseName(person, people)}\n `;
+    familyString += `Spouse: ${findSpouse(person, people)}\n `;
     return familyString;
 }
 
