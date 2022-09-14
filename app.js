@@ -71,7 +71,7 @@ function mainMenu(person, people) {
         searchByTraits(people);
     }
     else{
-        let displayOption = prompt(
+        displayOption = prompt(
             `Found ${person[0].firstName} ${person[0].lastName}. Do you want to know their 'info', 'family', or 'descendants'?\nType the option you want or type 'restart' or 'quit'.`
         );
     }
